@@ -1,0 +1,48 @@
+<%- include('../partials/header.ejs')%>
+<div class = "content">
+    <form method="POST" action="/trading/<%= trade.id%>?_method=PUT">
+        <table>
+            <tr>
+                <td><label for="title" >Title</label></td>
+                <td><input type="text" id="title" name="title" value = "<%= trade.title%>" class = "fixed-width" required></td>
+            </tr>
+
+            <!--
+            <tr>
+                <td><label for="category">Pick a Category</label></td>
+                <td><select name="category" id="category">
+                        <option value="Speaker">Speaker</option>
+                        <option value="Receiver">Receiver</option>
+                    </select></td>
+            </tr>
+            -->
+
+            <tr>
+                <td><label for="category" >Category</label></td>
+                <td><input type="text" id="category" name="category" value = "<%= trade.category%>" class = "fixed-width" required></td>
+            </tr>
+
+
+            <tr>
+                <td><label for="condition" >Condition</label></td>
+                <td><input type="text" id="condition" name="condition" value = "<%= trade.condition%>" class = "fixed-width" required></td>
+            </tr>
+
+            <tr>
+                <td class = "align-top"><label for="description">Description</label></td>
+                <td><textarea rows="5" id="description" name="description" class = "fixed-width" required minlength="20"><%= trade.description%></textarea></td>
+            </tr>
+
+            <tr>
+                <td><label for="imageURL" >imageURL</label></td>
+                <td><input type="text" id="imageURL" name="imageURL" value = "<%= trade.imageURL%>" class = "fixed-width" required></td>
+            </tr>
+
+            <tr>
+                <td colspan="2" class = "align-right"><button>Submit</button></td>
+            </tr>
+            </table>        
+    </form>
+
+</div>
+<%- include('../partials/footer.ejs')%>

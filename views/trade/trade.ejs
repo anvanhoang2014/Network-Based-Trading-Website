@@ -1,0 +1,53 @@
+<%- include('../partials/header.ejs') %>
+
+<div id= "tradeItemContainer" class = "content">
+    <h4><%= trade.title%></h4>
+    <p id="attributeCategory">Category: </p>
+    <p><%= trade.category%></p><br>
+
+    <p id="attributeCondition">Condition: </p>
+    <p><%= trade.condition%></p><br>
+
+
+    <p id="attributeTime">Posted :</p>
+    <p><%= trade.createdAt.toLocaleString()%> by <%= author.seller.firstName + ' ' + author.seller.lastName%></p><br>
+
+
+    <p id="attributeDescription">Description: </p>
+    <p><%= trade.description%></p><br>
+
+
+
+    <div>
+        <p id="item"><img id="tradeImage" src="<%= trade.imageURL%>" alt="Trade Item"></p>
+
+    </div>
+
+    <%if(user == trade.seller._id) {%>
+        <div>
+            <form>
+                <button type="submit" formmethod="GET" formaction="/trading/<%= trade.id%>/edit">Edit</button>
+                <button type="submit" formmethod="POST" formaction="/trading/<%= trade.id%>?_method=DELETE">Delete</button>
+            </form>
+        </div>
+    <%}%>
+
+    <%if(user != trade.seller._id) {%>
+        <div>
+            <form>
+                <button type="submit" formmethod="GET" formaction="/users/trade/<%= trade.id%>">Trade</button>
+
+                <%if(watches.length === 0) {%>
+
+                    <button type="submit" value = "<%= trade.id%>" formmethod="POST" formaction="/watches/watching/<%= trade.id%>">Watch</button>
+                <%} else {%>
+                    <button type="submit" formmethod="POST" formaction="/watches/watching/<%= watches[0].id%>?_method=DELETE">Unwatch</button></form></td>
+                <%}%>
+
+            </form>
+        </div>
+    <%}%>
+
+</div>
+
+<%- include('../partials/footer.ejs') %>

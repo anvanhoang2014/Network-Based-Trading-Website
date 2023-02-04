@@ -1,0 +1,36 @@
+
+
+<%- include('../partials/header.ejs') %>
+<div class = "content">
+    <%if(oneOffer){%>
+    <table id="profileTable">
+        <tr>
+            <th class = "tableHeader">Your Item</th>
+            <th class = "tableHeader">Trader's Item</th>
+            <th class = "tableHeader">Action</th>
+        </tr>
+        <tr>
+            <%allItem.forEach(displayOffer =>{%>
+            <%if (displayOffer.id == oneOffer.buyerItem) {%>
+            <td class = "tableElement"><a href = '/trading/<%=oneOffer.buyerItem%>'><%=displayOffer.title%></a></td>
+            <%}%>
+            <%});%>
+
+            <%allItem.forEach(displayOffer =>{%>
+            <%if (displayOffer.id == oneOffer.sellerItem) {%>
+            <td class = "tableElement"><a href = '/trading/<%=oneOffer.sellerItem%>'><%=displayOffer.title%></a></td>
+            <%}%>
+            <%});%>
+
+            <%if (currentUser.id == oneOffer.buyer) {%>
+            <td><form><button type="submit" formmethod="POST" formaction="/users/trade/offer/<%= oneOffer.id%>?_method=DELETE">Cancel</button></form></td>
+            <%} else {%>
+                <td><form><button type="submit" formmethod="POST" formaction="/users/trade/offer/<%= oneOffer.id%>?_method=DELETE">Reject</button>
+                        <button type="submit" formmethod="POST" formaction="/users/trade/offer/<%= oneOffer.id%>?_method=PUT">Accept</button></form></td>
+            <%}%>
+
+        </tr>
+    </table>
+    <%}%>
+</div>
+<%- include('../partials/footer.ejs') %>

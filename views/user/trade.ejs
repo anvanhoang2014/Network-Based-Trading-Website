@@ -1,0 +1,67 @@
+<%- include('../partials/header.ejs') %>
+<div class = "content">
+    <h2>Welcome, <%=user.firstName%></h2>
+    <%if(trades.length){%>
+        <p>YOUR ITEMS</p>
+        <form action="/users/trade/<%= sellerItem%>" method="POST">
+            <table id="profileTable">
+                <tr>
+                    <th class = "tableHeader"></th>
+                    <th class = "tableHeader">Title</th>
+                    <th class = "tableHeader">Category</th>
+                    <th class = "tableHeader">Status</th>
+                </tr>
+
+
+                <%trades.forEach(trade =>{%>
+                    <%let available = 0%>
+                        <%allOffer.forEach(offer =>{%>
+                            <%if((trade.id == offer.buyerItem)||((trade.id == offer.sellerItem)&&(offer.status == "Traded"))){%>
+                                <%available = 1%>
+                            <%}%>
+
+                    <%});%>
+                    <%if (available == 0){%>
+                    <tr>
+                        <td class = "tableElement">
+                            <div class="radio">
+                                <label><input type="radio" id='buyerItem' name="buyerItem" value = "<%=trade.id%>"></label>
+                            </div>
+                        </td>
+                        <td class = "tableElement">
+                            <div class="radiotext">
+                                <label for='buyerItem'><a href = '/trading/<%=trade.id%>'><%=trade.title%></a></label>
+                            </div>
+                        </td>
+                        <td class = "tableElement">
+                            <div class="radiotext">
+                                <label for='regular'><%=trade.category%></label>
+                            </div>
+                        </td>
+
+                        <td class = "tableElement">
+                            <div class="radiotext">
+                                <label for='regular'>Available</label>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <%}%>
+
+
+                <%});%>
+
+            </table>
+            <tr>
+                <td colspan="2" class = "align-right"><button>Trade</button></td>
+            </tr>
+        </form>
+
+    <%} else {%>
+        <p>You have not created any trades</p>
+    <%}%>
+
+
+</div>
+<%- include('../partials/footer.ejs') %>

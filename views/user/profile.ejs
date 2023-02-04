@@ -1,0 +1,163 @@
+<%- include('../partials/header.ejs') %>
+<div class = "content">
+    <h2>Welcome, <%=user.firstName%></h2><br>
+    <%if(trades.length){%>
+    <p id="profileHeader">Your Items</p>
+    <table id="profileTable">
+        <tr>
+            <th class = "tableHeader">Title</th>
+            <th class = "tableHeader">Category</th>
+            <th class = "tableHeader">Status</th>
+            <th class = "tableHeader">Action</th>
+        </tr>
+    <%trades.forEach(trade =>{%>
+        <tr>
+            <td class = "tableElement"><a href = '/trading/<%=trade.id%>'><%=trade.title%></a></td>
+            <td class = "tableElement"><%=trade.category%></td>
+
+            <td class = "tableElement">
+                <%if(allOffers.length){%>
+                    <%let a = 0;%>
+                    <%allOffers.forEach(offer =>{%>
+                            <%if ((offer.buyerItem == trade.id)||(offer.sellerItem == trade.id)) {%>
+                                <%a = 1;%>
+                                <%=offer.status%>
+                            <%} else if (a == 0){%>
+                                <%a = 0;%>
+                            <%}%>
+                        <%});%>
+                    <%if(a == 0){%>
+                    Available
+
+                    <%}%>
+                    <%} else {%>
+                        Available
+                <%}%>
+            </td>
+
+            <td class = "tableElement">
+
+
+                <%if(allOffers.length){%>
+                    <%let complete = 0%>
+                    <%let manage = 0%>
+                    <%let have = 0%>
+                    <%let theOfferId = 0%>
+
+                    <%allOffers.forEach(offer =>{%>
+                    <%if (((offer.buyerItem == trade.id)||(offer.sellerItem == trade.id))&&(offer.status == "Traded")) {%>
+                        <%complete = 1%>
+                    <%} else if((offer.buyerItem == trade.id)||(offer.sellerItem == trade.id)){%>
+                        <%manage = 1%>
+                        <%theOfferId = offer.id%>
+                    <%} else{%>
+                        <%have = 1%>
+
+                    <%}%>
+                <%});%>
+                    <%if(complete==1){%>
+                        COMPLETED-NO MORE ACTION
+                    <%} else if(manage == 1){%>
+                        <form><button type="submit" formmethod="GET" formaction="/users/trade/offer/<%=theOfferId%>">Manage</button></form>
+                    <%} else {%>
+                        <form><button type="submit" formmethod="GET" formaction="/trading/<%= trade.id%>/edit">Edit</button>
+                            <button type="submit" formmethod="POST" formaction="/trading/<%= trade.id%>?_method=DELETE">Delete</button></form>
+                    <%}%>
+                <%} else {%>
+                <form><button type="submit" formmethod="GET" formaction="/trading/<%= trade.id%>/edit">Edit</button>
+                    <button type="submit" formmethod="POST" formaction="/trading/<%= trade.id%>?_method=DELETE">Delete</button></form>
+                <%}%>
+
+
+            </td>
+
+
+        </tr>
+
+
+
+
+
+    <%});%>
+    </table>
+    <%} else {%>
+        <p id="profileHeader">No Created Trade</p>
+    <%}%>
+
+    <br><br>
+    <%if(watches.length){%>
+    <p id="profileHeader">Your Watched Items</p>
+    <table id="profileTable">
+        <tr>
+            <th class = "tableHeader">Title</th>
+            <th class = "tableHeader">Category</th>
+            <th class = "tableHeader">Status</th>
+            <th class = "tableHeader">Action</th>
+        </tr>
+        <%watches.forEach(watch =>{%>
+            <%allItem.forEach(sortWatch =>{%>
+                <%if (sortWatch.id == watch.item) {%>
+                    <tr>
+                        <td class = "tableElement"><a href = '/trading/<%=watch.item%>'><%=sortWatch.title%></a></td>
+                        <td class = "tableElement"><%=sortWatch.category%></td>
+                        <td class = "tableElement">
+                            <%if(myOffers.length){%>
+                            <%myOffers.forEach(offer =>{%>
+                                <%let a = 0;%>
+                                <%if (offer.sellerItem == sortWatch.id) {%>
+                                    <%=offer.status%>
+                                    <%a = 1;%>
+                                <%} else if (a == 0){%>
+                                    Available
+                                <%}%>
+                            <%});%>
+                            <%} else {%>
+                        Available
+                        <%}%>
+                        </td>
+                        <td><form>
+                        <button type="submit" formmethod="POST" formaction="/watches/watching/<%= watch.id%>?_method=DELETE">Unwatch</button></form></td>
+                    </tr>
+                <%}%>
+            <%});%>
+        <%});%>
+    </table>
+    <%} else {%>
+        <p id="profileHeader">No Watched Items</p>
+    <%}%>
+    <br><br>
+    <%if(myOffers.length){%>
+    <p id="profileHeader">Your Offers and Trades</p>
+    <table id="profileTable">
+        <tr>
+            <th class = "tableHeader">Title</th>
+            <th class = "tableHeader">Category</th>
+            <th class = "tableHeader">Status</th>
+            <th class = "tableHeader">Action</th>
+        </tr>
+        <%myOffers.forEach(offer =>{%>
+            <%allItem.forEach(sortOffer =>{%>
+                <%if (sortOffer.id == offer.sellerItem) {%>
+                    <tr>
+                        <td class = "tableElement"><a href = '/trading/<%=offer.sellerItem%>'><%=sortOffer.title%></a></td>
+                        <td class = "tableElement"><%=sortOffer.category%></td>
+                        <td class = "tableElement"><%=offer.status%></td>
+                        <%if(offer.status == "Offer Pending"){%>
+                            <td><form><button type="submit" formmethod="POST" formaction="/users/trade/offer/<%= offer.id%>?_method=DELETE">Cancel</button></form></td>
+                        <%} else if(offer.status == "Traded"){%>
+                            <td class = "tableElement">COMPLETED-NO MORE ACTION</td>
+                        <%}%>
+
+                    </tr>
+                <%}%>
+            <%});%>
+        <%});%>
+    </table>
+    <%} else {%>
+
+        <p id="profileHeader">You've Made no Offers nor Trades</p>
+    <%}%>
+
+</div>
+
+<%- include('../partials/footer.ejs') %>

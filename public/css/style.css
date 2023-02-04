@@ -1,0 +1,72 @@
+* {
+    font-family: "Times New Roman";
+}
+#mainNav {
+    background-color: #FF8000;
+}
+
+@media (max-width: 979px) {
+    body {
+        padding-top: 0px;
+    }
+}
+
+#navLogo{
+    height: 52px;
+}
+
+.content {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+#tradeItemContainer p {
+    display: inline;
+}
+
+.fixed-width{
+    width: 300px;
+}
+
+/*
+#item{
+    float: left;
+}
+ */
+
+.success {
+    background: rgba(108, 192, 112, 0.7);
+    color: #fff;
+    width: 100%;
+    text-align: center;
+    padding: 10px 10px;
+}
+
+.error {
+    background: rgba(255, 102, 51, 0.7);
+    color: #fff;
+    width: 100%;
+    text-align: center;
+    padding: 10px 10px;
+}
+
+
+#tradeImage{
+    height: 200px;
+}
+
+#profileTable, .tableElement, .tableHeader{
+    border: 1px solid;
+}
+
+#profileHeader{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.footer {
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:115px;   /* Height of the footer */
+}
